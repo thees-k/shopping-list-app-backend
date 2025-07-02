@@ -1,5 +1,5 @@
 {
-  "name": "my-express-server",
+  "name": "shopping-list-app-backend",
   "version": "1.0.0",
   "main": "built/start.js",
   "scripts": {
