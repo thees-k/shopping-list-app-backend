@@ -10,7 +10,7 @@ dotenv.config();
 
 export function createShoppingListRouter(): Router {
   const router: Router = express.Router();
-  const endpoint = "/api";
+  const basePath = "/api";
 
   // Create a new instance of the ManagedListService with the name "shoppingList"
   const managedListService = new ManagedListService("shoppingList");
@@ -66,7 +66,7 @@ export function createShoppingListRouter(): Router {
    * Get all items in the shopping list.
    * @returns A JSON array of all items in the list.
    */
-  router.get(`${endpoint}/items`, (req: Request, res: Response) => {
+  router.get(`${basePath}/items`, (req: Request, res: Response) => {
     try {
       const items = managedListService.reloadManagedList();
       res.json(items);
@@ -82,7 +82,7 @@ export function createShoppingListRouter(): Router {
    * @param {boolean} checked - Whether the item is checked or not.
    * @returns A JSON object representing the newly added item if successful, otherwise an error message.
    */
-  router.post(`${endpoint}/items`, (req: Request, res: Response) => {
+  router.post(`${basePath}/items`, (req: Request, res: Response) => {
     const { text, checked } = req.body;
     if (!text) {
       res.status(400).json({ error: "Text is required" });
@@ -102,7 +102,7 @@ export function createShoppingListRouter(): Router {
    * @param {string} id - The ID of the item to retrieve.
    * @returns A JSON object representing the item, or a 404 error if the item was not found.
    */
-  router.get(`${endpoint}/items/:id`, (req: Request, res: Response) => {
+  router.get(`${basePath}/items/:id`, (req: Request, res: Response) => {
     const { id } = req.params;
     if (isValidId(id)) {
       try {
@@ -126,7 +126,7 @@ export function createShoppingListRouter(): Router {
    * @param {string} id - The ID of the item to delete.
    * @returns A success message if the item was deleted successfully, or a 404 error if the item was not found.
    */
-  router.delete(`${endpoint}/items/:id`, (req: Request, res: Response) => {
+  router.delete(`${basePath}/items/:id`, (req: Request, res: Response) => {
     const { id } = req.params;
     if (isValidId(id)) {
       try {
@@ -148,7 +148,7 @@ export function createShoppingListRouter(): Router {
    * @param {boolean | null} checked - Whether the item is checked or not. Null or "null" to keep the current value.
    * @returns A success message if the item was updated successfully, or a 404 error if the item was not found.
    */
-  router.put(`${endpoint}/items/:id`, (req: Request, res: Response) => {
+  router.put(`${basePath}/items/:id`, (req: Request, res: Response) => {
     const { id } = req.params;
     let { text, checked } = req.body;
 
@@ -172,7 +172,7 @@ export function createShoppingListRouter(): Router {
    * @param {number} counter - The current counter value.
    * @returns A JSON object with the updated counter value.
    */
-  router.get(`${endpoint}/check`, (req: Request, res: Response) => {
+  router.get(`${basePath}/check`, (req: Request, res: Response) => {
     const { counter } = req.query;
     if (isNaN(Number(counter))) {
       res.status(400).json({ error: "Invalid counter value" });
